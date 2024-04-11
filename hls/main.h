@@ -6,9 +6,9 @@ void convolution3(float input[6][14][14], float weights[16][6][5][5], float bias
 void relu3(float input[16][10][10], float output[16][10][10]);
 void max_pooling4(float input[16][10][10],float output[16][5][5]);
 void relu4(float input[16][5][5], float output[16][5][5]);
-void convolution5(float input[16][5][5], float weights[120][16][5][5], float bias[120], float output[120][1][1]);
+void convolution5(float input[16][5][5], unsigned char weights[120][16][5][5], float bias[120], float output[120][1][1], float q_scale[120][16], float q_bias[120][16]);
 void relu5(float input[120][1][1], float output[120][1][1]);
 void fc6(const float input[120][1][1], const float weights[10][120][1][1], const float bias[10], float output[10]);
 void relu6(float input[10], float output[10]);
 
-int lenet_accelerator(float input[1][32][32], float w5[120][16][5][5], float output[10]);
+int lenet_accelerator(float input[1][32][32], float output[10]);

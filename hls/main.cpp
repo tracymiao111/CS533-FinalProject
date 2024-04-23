@@ -100,7 +100,7 @@ void convolution_3_ReLU(float input[2][14][14], float weights[5][2][5][5], float
             }
 }
 
-void maxpool_4_ReLU(float input[5][10][10],float output[5][5][5])
+void maxpool_4(float input[5][10][10],float output[5][5][5])
 {
     for(int c = 0;c < 5; c++)
         for(int h = 0; h < 5; h++)
@@ -113,7 +113,6 @@ void maxpool_4_ReLU(float input[5][10][10],float output[5][5][5])
                     for(int j = 0;j < 2; j++)
                         max_value = (max_value > input[c][h*2+i][w*2+j]) ? max_value:input[c][h*2+i][w*2+j];
                 }
-				if (max_value < 0) max_value = 0;
                 output[c][h][w] = max_value;
             }
 }
@@ -198,7 +197,7 @@ int lenet_accelerator(float input[1][32][32], float output[10])
 	//fused layer
 	fused_layer1(input_oc, w1_oc, b1_oc, output2_oc);
 	convolution_3_ReLU(output2_oc, w3_oc, b3_oc, output3_oc);
-	maxpool_4_ReLU(output3_oc, output4_oc);
+	maxpool_4(output3_oc, output4_oc);
 	convolution_5_ReLU(output4_oc, w5_oc, b5_oc, output5_oc);
 	fc_6_ReLU(output5_oc, w6_oc, b6_oc, output6_oc);
 	store_output(output, output6_oc);

@@ -21,7 +21,6 @@ void fused_layer1(float input[1][32][32], float weights[6][1][5][5], float bias[
 	#pragma HLS array_partition variable=input cyclic dim=3 factor=5
 
     float intermediate[6][28][28];
-    //#pragma HLS array_partition variable=intermediate complete dim=1
 
     for(int co = 0; co < 6; co++) {
         for(int h = 0; h < 28; h++) {
@@ -72,12 +71,9 @@ void fused_layer1(float input[1][32][32], float weights[6][1][5][5], float bias[
 
 void convolution_3_ReLU(float input[6][14][14], float weights[16][6][5][5], float bias[16], float output[16][10][10])
 {
-//    #pragma HLS array_partition variable=weights cyclic dim=2 factor=2
-//    #pragma HLS array_partition variable=input cyclic dim=1 factor=2
-
-#pragma HLS array_partition variable=weights complete dim=2 //factor=2
+#pragma HLS array_partition variable=weights complete dim=2
 #pragma HLS array_partition variable=input complete dim=1
-// #pragma HLS array_partition variable=input complete dim=1
+
     for(int co = 0; co < 16; co++)
         for(int h = 0; h < 10; h++)
             for(int w = 0; w < 10; w++)
@@ -124,8 +120,6 @@ void maxpool_4(float input[16][10][10],float output[16][5][5])
 
 void convolution_5_ReLU(float input[16][5][5], float weights[120][16][5][5], float bias[120], float output[120][1][1])
 {
-	#pragma HLS array_partition variable=weights cyclic dim=4 factor=5
-	#pragma HLS array_partition variable=input cyclic dim=3 factor=5
     for(int co = 0; co < 120; co++)
     {
         float sum = 0;
@@ -158,7 +152,6 @@ void fc_6_ReLU(const float input[120][1][1], const float weights[10][120][1][1],
 {
     for(int n = 0; n < 10; n++)
     {
-		// #pragma HLS PIPELINE
         output[n] = 0;
 
         for(int c = 0; c < 120; c++)
